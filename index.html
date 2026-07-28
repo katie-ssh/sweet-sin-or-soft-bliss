@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Sweet Sin or Soft Bliss?" />
+  <meta property="og:description" content="Find your frequency and see where your energy pulls you. A bright, playful quiz about desire, taste, temptation, and the invisible vibe you carry into every space." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/share-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sweet Sin or Soft Bliss? — take the quiz" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sweet Sin or Soft Bliss?" />
+  <meta name="twitter:description" content="Find your frequency and see where your energy pulls you. A bright, playful quiz about desire, taste, temptation, and the invisible vibe you carry into every space." />
+  <meta name="twitter:image" content="./assets/share-card.png" />
+  <meta name="twitter:image:alt" content="Sweet Sin or Soft Bliss? — take the quiz" />
+  <title>Sweet Sin or Soft Bliss?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow: #ffea00;
+      --green: #10b14a;
+      --red: #f71f25;
+      --navy: #05274b;
+      --black: #060606;
+      --white: #fffdf4;
+      --soft: #f6f3e8;
+      --text: #121212;
+      --muted: #4a4a4a;
+      --shadow: 0 24px 60px rgba(0,0,0,0.14);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --transition: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+      --display: 'Montserrat', Arial, sans-serif;
+      --body: 'Inter', Arial, sans-serif;
+      --line: #e7e8ef;
+      --chip: #eef1fb;
+      --chip-text: #1d2030;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: var(--body);
+      color: var(--text);
+      background: linear-gradient(180deg, #fffdf7 0%, #f5f1e5 100%);
+      padding: clamp(12px, 2vw, 28px);
+    }
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      min-height: 280px;
+    }
+    .hero-left {
+      background: var(--yellow);
+      padding: clamp(24px, 4vw, 48px);
+      display: grid;
+      align-content: center;
+      gap: 14px;
+      border-right: 2px solid rgba(0,0,0,0.08);
+    }
+    .hero-right {
+      background: var(--green);
+      color: white;
+      padding: clamp(24px, 4vw, 48px);
+      display: grid;
+      align-content: center;
+      gap: 12px;
+    }
+    h1, h2, h3 {
+      font-family: var(--display);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      text-transform: none;
+    }
+    h1 { font-size: clamp(2.5rem, 7vw, 5rem); max-width: 8ch; }
+    .hero-right h2 { font-size: clamp(1.8rem, 4vw, 3rem); max-width: 10ch; }
+    .hero-left p, .hero-right p { max-width: 34ch; font-size: 1rem; line-height: 1.5; }
+    .grid-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      min-height: 108px;
+      border-top: 2px solid rgba(0,0,0,0.08);
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+    }
+    .grid-band div:nth-child(1) { background: var(--red); }
+    .grid-band div:nth-child(2) { background: var(--yellow); }
+    .grid-band div:nth-child(3) { background: var(--soft); }
+    .grid-band div:nth-child(4) { background: var(--navy); }
+    .quiz {
+      padding: clamp(20px, 4vw, 40px);
+      display: grid;
+      gap: 24px;
+      background: linear-gradient(180deg, rgba(255,234,0,0.08), rgba(255,255,255,0));
+    }
+    .progress {
+      height: 14px;
+      border-radius: 999px;
+      background: #ece7d8;
+      overflow: hidden;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+      transition: width 360ms var(--transition);
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .q-title { font-size: clamp(1.8rem, 4vw, 3rem); max-width: 13ch; }
+    .q-copy { max-width: 44ch; color: var(--muted); margin-top: 10px; }
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .answer {
+      text-align: left;
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      background: white;
+      color: var(--text);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .answer:hover, .answer:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(5,39,75,0.28);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      outline: none;
+      background: #fffef7;
+    }
+    .answer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: baseline;
+      margin-bottom: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--black);
+      color: white;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .answer p { color: var(--muted); font-size: 0.95rem; }
+
+    /* Pre-save gate */
+    .presave {
+      display: none; /* hidden until quiz is done */
+      padding: clamp(40px, 8vw, 80px);
+      background: #f3f4f8;
+      border-top: 2px solid rgba(0,0,0,0.06);
+      border-bottom: 2px solid rgba(0,0,0,0.06);
+    }
+    .presave-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .presave-title {
+      font-family: var(--display);
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      line-height: 1.25;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px;
+    }
+    .presave-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 36px;
+      border-radius: 999px;
+      background: #4046d9;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .presave-btn:hover,
+    .presave-btn:focus-visible {
+      background: #3439c0;
+      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(0,0,0,0.18);
+    }
+    .presave-footnote {
+      margin-top: 18px;
+      font-size: 0.98rem;
+      color: #3a3d4c;
+    }
+    .presave-skip {
+      border: none;
+      padding: 0;
+      margin: 0;
+      background: none;
+      color: #10131f;
+      font: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .result {
+      display: none;
+      padding: clamp(20px, 4vw, 40px);
+      background: white;
+      border-top: 2px solid rgba(0,0,0,0.08);
+      gap: 24px;
+    }
+    .result.active { display: grid; }
+    .result-panel {
+      border-radius: var(--radius);
+      padding: 28px;
+      background: var(--yellow);
+      min-height: 220px;
+      display: grid;
+      gap: 24px;
+    }
+    .result-name { font-size: clamp(2.2rem, 6vw, 4.4rem); max-width: 8ch; }
+    .result-copy { max-width: 44ch; line-height: 1.55; }
+    .traits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .trait {
+      border: 2px solid rgba(0,0,0,0.12);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: rgba(255,255,255,0.35);
+      min-height: 108px;
+      backdrop-filter: blur(2px);
+    }
+    .trait strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: inherit;
+      opacity: 0.72;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 30px;
+      border-radius: 999px;
+      font-family: var(--body);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
+    .btn:hover, .btn:focus-visible {
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .btn svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .btn-share {
+      background: var(--black);
+      color: #ffffff;
+    }
+    .btn-share:hover, .btn-share:focus-visible {
+      background: var(--navy);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.2);
+    }
+    .btn-retake {
+      background: var(--yellow);
+      color: var(--text);
+    }
+    .btn-retake:hover, .btn-retake:focus-visible {
+      background: #ffd400;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+    }
+
+    @media (max-width: 820px) {
+      .hero, .answers, .traits {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .meta, .answer-top { flex-direction: column; align-items: flex-start; }
+      .grid-band { min-height: 74px; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Sweet Sin or Soft Bliss?</h1>
+      </div>
+      <div class="hero-right">
+        <h2>Find your frequency and see where your energy pulls you</h2>
+        <p>A bright, playful quiz about desire, taste, temptation, and the invisible vibe you carry into every space.</p>
+      </div>
+    </section>
+
+    <div class="grid-band" aria-hidden="true">
+      <div></div><div></div><div></div><div></div>
+    </div>
+
+    <section class="quiz" id="quizBlock">
+      <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+      <div class="meta">
+        <span id="counter">Question 1 / 6</span>
+        <span id="hint">Choose what feels most like you.</span>
+      </div>
+      <div>
+        <h2 class="q-title" id="questionTitle"></h2>
+        <p class="q-copy" id="questionCopy"></p>
+      </div>
+      <div class="answers" id="answers"></div>
+    </section>
+
+    <!-- Pre-save gate -->
+    <section class="presave" id="presaveBlock">
+      <div class="presave-inner">
+        <h2 class="presave-title">
+          Pre-save THE SIN : BLISS to<br />
+          reveal your card and message.
+        </h2>
+
+        <a class="presave-btn"
+           href="https://enhypen.lnk.to/THESINBLISS"
+           target="_blank"
+           rel="noopener noreferrer">
+          THE SIN : BLISS Pre-Save
+        </a>
+
+        <p class="presave-footnote">
+          You may also skip and
+          <button type="button" class="presave-skip" id="presaveSkipBtn">
+            continue
+          </button>.
+        </p>
+      </div>
+    </section>
+
+    <section class="result" id="resultBlock">
+      <div class="result-panel" id="resultPanelMain">
+        <div>
+          <h2 class="result-name" id="resultName"></h2>
+          <p class="result-copy" id="resultCopy"></p>
+        </div>
+        <div class="traits" id="traits"></div>
+      </div>
+
+      <div class="result-actions">
+        <a id="tweetBtn" class="btn btn-share" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.9 2H22l-7.2 8.24L23.3 22h-6.7l-5.24-6.86L5 22H1.9l7.7-8.8L.9 2h6.86l4.73 6.27L18.9 2Zm-2.35 18.1h1.86L7.53 3.8H5.55L16.55 20.1Z"/>
+          </svg>
+          Share on X
+        </a>
+        <button id="retakeBtn" class="btn btn-retake" type="button">Retake quiz</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        title: 'Someone says you are unforgettable. In what way?',
+        copy: '',
+        hint: 'Go with instinct.',
+        options: [
+          { text: 'You feel like a beautiful obsession.', sub: 'Intensity is part of your charm.', kind: 'sin', axis: 'velvet' },
+          { text: 'You make everything feel a little more magical.', sub: 'Your pull is soft but lasting.', kind: 'bliss', axis: 'gold' },
+          { text: 'You leave people wondering about you long after you are gone.', sub: 'Mystery does a lot of your work for you.', kind: 'bliss', axis: 'blue' },
+          { text: 'You feel dangerous in the most tempting way.', sub: 'Tension can be attractive.', kind: 'sin', axis: 'mirage' }
+        ]
+      },
+      {
+        title: 'Your ideal night looks like…',
+        copy: '',
+        hint: 'Pick the scene you would step into immediately.',
+        options: [
+          { text: 'Velvet walls, loud feelings, impossible eye contact.', sub: 'Romance should feel cinematic.', kind: 'sin', axis: 'velvet' },
+          { text: 'Warm light, a little glamour, and a song that changes your chemistry.', sub: 'Pleasure matters most when it feels golden.', kind: 'bliss', axis: 'gold' },
+          { text: 'A cold breeze, distant lights, and a silence that says everything.', sub: 'You like atmosphere with emotional depth.', kind: 'bliss', axis: 'blue' },
+          { text: 'A room full of mirrors where nothing is entirely what it seems.', sub: 'You are drawn to beautiful instability.', kind: 'sin', axis: 'mirage' }
+        ]
+      },
+      {
+        title: 'Which compliment would stay with you the longest?',
+        copy: '',
+        hint: 'Pick the one you would secretly replay later.',
+        options: [
+          { text: 'You feel impossible to get over.', sub: 'You want to be remembered deeply.', kind: 'sin', axis: 'velvet' },
+          { text: 'You make ordinary things feel beautiful.', sub: 'Style is part of your charm.', kind: 'bliss', axis: 'gold' },
+          { text: 'You are impossible to read, but I want to try.', sub: 'Distance can be part of the magnetism.', kind: 'bliss', axis: 'blue' },
+          { text: 'You are trouble, and that is exactly the appeal.', sub: 'You know danger can be seductive.', kind: 'sin', axis: 'mirage' }
+        ]
+      },
+      {
+        title: 'Pick the thought that feels most like your inner voice.',
+        copy: '',
+        hint: 'This is really a question about identity.',
+        options: [
+          { text: 'If I am going to feel something, I want to feel it completely.', sub: 'Half-measures are boring.', kind: 'sin', axis: 'velvet' },
+          { text: 'Taste shapes the way I move through the world.', sub: 'Taste is part of your identity.', kind: 'bliss', axis: 'gold' },
+          { text: 'Not everything meaningful needs to be loud.', sub: 'You trust restraint more than spectacle.', kind: 'bliss', axis: 'blue' },
+          { text: 'What I desire always tells me something true.', sub: 'Desire reveals identity.', kind: 'sin', axis: 'mirage' }
+        ]
+      },
+      {
+        title: 'What kind of chaos are you most likely to create?',
+        copy: '',
+        hint: 'This one reveals more than you think.',
+        options: [
+          { text: 'Emotional chaos. People would be recovering for days.', sub: 'You create impact naturally.', kind: 'sin', axis: 'velvet' },
+          { text: 'Beautiful chaos. Everything falls apart, but it looks incredible.', sub: 'You romanticize the mess just enough.', kind: 'bliss', axis: 'gold' },
+          { text: 'Quiet chaos. Nobody notices until it has already happened.', sub: 'Your strength is in subtle shifts.', kind: 'bliss', axis: 'blue' },
+          { text: 'Magnetic chaos. Bad idea, amazing story.', sub: 'You are drawn to thrill over safety.', kind: 'sin', axis: 'mirage' }
+        ]
+      },
+      {
+        title: 'Finally — what does sin-bliss mean to you?',
+        copy: '',
+        hint: 'Last one.',
+        options: [
+          { text: 'A feeling so strong it changes the room.', sub: 'You crave emotional voltage.', kind: 'sin', axis: 'velvet' },
+          { text: 'Being admired without ever having to ask for it.', sub: 'Glow is its own language.', kind: 'bliss', axis: 'gold' },
+          { text: 'A tender feeling that lingers longer than it should.', sub: 'Softness can be unforgettable.', kind: 'bliss', axis: 'blue' },
+          { text: 'Getting closer to the thing you probably should not want.', sub: 'Some desires become art when followed.', kind: 'sin', axis: 'mirage' }
+        ]
+      }
+    ];
+
+    const results = {
+      velvet: {
+        name: 'Velvet Fire',
+        copy: 'You move through the world like emotion with posture — intense, magnetic, and impossible to forget once the temperature shifts.',
+        traits: [['Energy', 'High-impact and unforgettable'], ['Aesthetic', 'Velvet, heat, confession'], ['Mood', 'Desire with intention']]
+      },
+      gold: {
+        name: 'Golden Rush',
+        copy: 'You are polished, alluring, and quietly powerful. Your charm works through precision, atmosphere, and that irresistible sense of glow around everything you touch.',
+        traits: [['Energy', 'Elegant and addictive'], ['Aesthetic', 'Gold tones, glamour, controlled softness'], ['Mood', 'Warmth with edge']]
+      },
+      blue: {
+        name: 'Blue Reverie',
+        copy: 'You feel like a romantic thought someone cannot shake — observant, emotionally intelligent, and quietly luminous in a way people remember.',
+        traits: [['Energy', 'Quiet and luminous'], ['Aesthetic', 'Distant lights, silver air, reflection'], ['Mood', 'Stillness with depth']]
+      },
+      mirage: {
+        name: 'Red Mirage',
+        copy: 'You are temptation with a sense of humor. You know curiosity is power, tension is beautiful, and a little danger is often the point.',
+        traits: [['Energy', 'Thrilling and destabilizing'], ['Aesthetic', 'Mirrors, sharp lines, red gloss'], ['Mood', 'Playful menace']]
+      }
+    };
+
+    let current = 0;
+    const scores = { velvet: 0, gold: 0, blue: 0, mirage: 0 };
+
+    const progressBar = document.getElementById('progressBar');
+    const counter = document.getElementById('counter');
+    const hint = document.getElementById('hint');
+    const questionTitle = document.getElementById('questionTitle');
+    const questionCopy = document.getElementById('questionCopy');
+    const answers = document.getElementById('answers');
+    const quizBlock = document.getElementById('quizBlock');
+    const presaveBlock = document.getElementById('presaveBlock');
+    const resultBlock = document.getElementById('resultBlock');
+    const resultName = document.getElementById('resultName');
+    const resultCopy = document.getElementById('resultCopy');
+    const traits = document.getElementById('traits');
+    const retakeBtn = document.getElementById('retakeBtn');
+    const tweetBtn = document.getElementById('tweetBtn');
+    const resultPanelMain = document.getElementById('resultPanelMain');
+    const presaveSkipBtn = document.getElementById('presaveSkipBtn');
+
+    function renderQuestion() {
+      const q = questions[current];
+      counter.textContent = `Question ${current + 1} / ${questions.length}`;
+      hint.textContent = q.hint;
+      questionTitle.textContent = q.title;
+      questionCopy.textContent = q.copy;
+      questionCopy.style.display = q.copy ? 'block' : 'none';
+      progressBar.style.width = `${(current / questions.length) * 100}%`;
+      answers.innerHTML = '';
+      q.options.forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'answer';
+        button.innerHTML = `
+          <div class="answer-top">
+            <span>${option.text}</span>
+            <span class="pill">${option.kind}</span>
+          </div>
+          <p>${option.sub}</p>
+        `;
+        button.addEventListener('click', () => pick(option.axis));
+        answers.appendChild(button);
+      });
+    }
+
+    function applyResultTheme(key) {
+      const map = {
+        velvet: ['var(--yellow)', '#121212'],
+        gold: ['var(--green)', '#ffffff'],
+        blue: ['var(--navy)', '#ffffff'],
+        mirage: ['var(--red)', '#ffffff']
+      };
+      const [bg, fg] = map[key];
+      resultPanelMain.style.background = bg;
+      resultPanelMain.style.color = fg;
+    }
+
+    function pick(axis) {
+      scores[axis] += 1;
+      current += 1;
+      if (current < questions.length) {
+        renderQuestion();
+      } else {
+        reveal();
+      }
+    }
+
+    function reveal() {
+      progressBar.style.width = '100%';
+      quizBlock.style.display = 'none';
+      presaveBlock.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showResult() {
+      const activeResult = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+      const result = results[activeResult];
+      applyResultTheme(activeResult);
+      resultName.textContent = result.name;
+      resultCopy.textContent = result.copy;
+      traits.innerHTML = '';
+      result.traits.forEach(([label, value]) => {
+        const card = document.createElement('div');
+        card.className = 'trait';
+        card.innerHTML = `<strong>${label}</strong><span>${value}</span>`;
+        traits.appendChild(card);
+      });
+      const quizUrl = window.location.href;
+      const text = encodeURIComponent('Sweet Sin or Soft Bliss? Take the quiz and find your frequency.');
+      tweetBtn.href = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(quizUrl)}`;
+      presaveBlock.style.display = 'none';
+      resultBlock.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    presaveSkipBtn.addEventListener('click', () => {
+      showResult();
+    });
+
+    const presaveMainBtn = document.querySelector('.presave-btn');
+    presaveMainBtn.addEventListener('click', () => {
+      showResult();
+    });
+
+    retakeBtn.addEventListener('click', () => {
+      current = 0;
+      Object.keys(scores).forEach(k => scores[k] = 0);
+      resultBlock.classList.remove('active');
+      presaveBlock.style.display = 'none';
+      quizBlock.style.display = 'grid';
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
